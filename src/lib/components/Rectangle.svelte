@@ -1,10 +1,22 @@
 <script lang="ts">
+  import { createEventDispatcher } from 'svelte';
+  const dispatch = createEventDispatcher();
   import type { RectangleDataType } from "$lib/models";
+  import RectangleEditMenu from "./RectangleEditMenu.svelte";
+  import { onMount } from "svelte";
 
   export let RectangleData: RectangleDataType;
 
   let moving = false;
   let showContextMenu = false;
+
+  let left: number;
+  let top: number;
+  $: {
+    left = window.innerWidth / 2 + RectangleData.x - RectangleData.width / 2;
+    top = window.innerHeight / 2 + RectangleData.y - RectangleData.height / 2;
+  }
+
 
   function onMouseDown() {
     moving = true;
@@ -12,8 +24,8 @@
 
   function onMouseMove(event: MouseEvent) {
     if (moving) {
-      RectangleData.left += event.movementX;
-      RectangleData.top += event.movementY;
+      RectangleData.x += event.movementX;
+      RectangleData.y += event.movementY;
     }
   }
 
@@ -26,18 +38,19 @@
     showContextMenu = !showContextMenu;
   }
 
-  function rotate() {
-    const temp = RectangleData.width;
-    RectangleData.width = RectangleData.height;
-    RectangleData.height = temp;
-
-    showContextMenu = false;
-  }
-
   function deleteRectangle() {
-    RectangleData.deleted = true;
-    showContextMenu = false;
+    dispatch("delete", RectangleData);
   }
+
+  onMount(() => {
+    window.addEventListener("resize", () => {
+      showContextMenu = false;
+      moving = false;
+      left = window.innerWidth / 2 + RectangleData.x - RectangleData.width / 2;
+      top = window.innerHeight / 2 + RectangleData.y - RectangleData.height / 2;
+    });
+  });
+
 </script>
 
 <style>
@@ -60,15 +73,19 @@
   on:mouseup={onMouseUp}
   on:mousemove={onMouseMove}
   on:contextmenu={handleContextMenu}
-  style="left: {RectangleData.left}px; top: {RectangleData.top}px;"
   class="draggable"
+  style="left:{left}px;top:{top}px;"
 >
   {#if showContextMenu}
     <div class="context-menu">
-      <button on:click={rotate}>Rotate</button>
-      <button on:click={deleteRectangle}>Delete</button>
+      <RectangleEditMenu
+        on:delete={deleteRectangle}
+        on:close={()=> {showContextMenu = false;}}
+        bind:RectangleData={RectangleData}
+      />
     </div>
   {/if}
+
   <svg width="{RectangleData.width}" height="{RectangleData.height}">
     <rect
       width="{RectangleData.width}"

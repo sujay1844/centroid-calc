@@ -21,8 +21,9 @@
         height: height,
         left: left,
         top: top,
+        x: left - window.innerWidth / 2 + width / 2,
+        y: top - window.innerHeight / 2 + height / 2,
         fillColor: fillColor,
-        deleted: false,
       }
     ];
   }
@@ -40,24 +41,44 @@
     return color;
   }
 
-  onMount((): void => {
-    createRandomRectangle();
-  });
-
-  $: {
-    rectangles = rectangles.filter((rectangle: RectangleDataType) => {
-      return !rectangle.deleted;
-    });
+  function handleDelete(event: CustomEvent): void {
+    const rectangle: RectangleDataType = event.detail;
+    rectangles = rectangles.filter((r: RectangleDataType) => r !== rectangle);
   }
+
 </script>
 
+<style>
+  .x-axis, .y-axis {
+  position: absolute;
+  background-color: #000;
+}
+
+.x-axis {
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+}
+
+.y-axis {
+  top: 0;
+  left: 50%;
+  width: 1px;
+  height: 100%;
+}
+</style>
+
 <section>
+  <div class="x-axis"></div>
+  <div class="y-axis"></div>
   <h1>Generate rectangles
   <button on:click={createRandomRectangle}>+</button>
   </h1>
   {#each rectangles as rectangle}
     <Rectangle
     bind:RectangleData={rectangle}
+    on:delete={handleDelete}
     />
   {/each}
 </section>
