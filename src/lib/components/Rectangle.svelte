@@ -13,9 +13,10 @@
   let left: number;
   let top: number;
   let zIndex: number = 1;
+  export let scalingFactor: number = 1;
   $: {
-    left = window.innerWidth / 2 + RectangleData.x - RectangleData.width / 2;
-    top = window.innerHeight / 2 + RectangleData.y - RectangleData.height / 2;
+    left = window.innerWidth / 2 + (RectangleData.x - RectangleData.width / 2) * scalingFactor;
+    top = window.innerHeight / 2 + (RectangleData.y - RectangleData.height / 2) * scalingFactor;
   }
 
   function onMouseDown() {
@@ -48,8 +49,8 @@
     window.addEventListener("resize", () => {
       showContextMenu = false;
       moving = false;
-      left = window.innerWidth / 2 + RectangleData.x - RectangleData.width / 2;
-      top = window.innerHeight / 2 + RectangleData.y - RectangleData.height / 2;
+      left = window.innerWidth / 2 + (RectangleData.x - RectangleData.width / 2) * scalingFactor;
+      top = window.innerHeight / 2 + (RectangleData.y - RectangleData.height / 2) * scalingFactor;
     });
     window.addEventListener("mouseout", (event: MouseEvent) => {
       if (event.relatedTarget === null && moving) {
@@ -94,10 +95,10 @@
     </div>
   {/if}
 
-  <svg width="{RectangleData.width}" height="{RectangleData.height}">
+  <svg width="{RectangleData.width * scalingFactor}" height="{RectangleData.height * scalingFactor}">
     <rect
-      width="{RectangleData.width}"
-      height="{RectangleData.height}"
+      width="{RectangleData.width * scalingFactor}"
+      height="{RectangleData.height * scalingFactor}"
       style="fill:{RectangleData.fillColor};stroke-width:3;stroke:#000000"
     />
   </svg>

@@ -3,8 +3,10 @@
 
   import Rectangle from "$lib/components/Rectangle.svelte";
   import Circle from "$lib/components/Circle.svelte";
+  import GithubLink from "$lib/components/GithubLink.svelte";
   import type { RectangleDataType, CircleDataType } from "$lib/models";
 
+  let scalingFactor: number = 1;
 
   let rectangles: RectangleDataType[] = [];
   let circles: CircleDataType[] = [];
@@ -68,6 +70,14 @@
     circles = circles.filter((c: CircleDataType) => c !== circle);
   }
 
+  onMount(() => {
+    window.addEventListener("wheel", (event: WheelEvent) => {
+      if (event.ctrlKey) {
+        event.preventDefault();
+        scalingFactor += event.deltaY * -0.01;
+      }
+    });
+  });
 </script>
 
 <style>
@@ -100,10 +110,12 @@
   </h1>
   <p>Click and drag to move shapes</p>
   <p>Right click to edit them</p>
+  <GithubLink />
 
   {#each rectangles as rectangle}
     <Rectangle
     bind:RectangleData={rectangle}
+    bind:scalingFactor={scalingFactor}
     on:delete={handleDeleteRectangle}
     />
   {/each}
@@ -113,4 +125,7 @@
     on:delete={handleDeleteCircle}
     />
   {/each}
+  
+
+
 </section>
