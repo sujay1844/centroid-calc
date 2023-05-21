@@ -122,6 +122,7 @@
   {#each circles as circle}
     <Circle
     bind:CircleData={circle}
+    bind:scalingFactor={scalingFactor}
     on:delete={handleDeleteCircle}
     />
   {/each}

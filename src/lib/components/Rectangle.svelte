@@ -12,11 +12,15 @@
 
   let left: number;
   let top: number;
+  let width: number;
+  let height: number;
   let zIndex: number = 1;
   export let scalingFactor: number = 1;
   $: {
     left = window.innerWidth / 2 + (RectangleData.x - RectangleData.width / 2) * scalingFactor;
     top = window.innerHeight / 2 + (RectangleData.y - RectangleData.height / 2) * scalingFactor;
+    width = RectangleData.width * scalingFactor;
+    height = RectangleData.height * scalingFactor;
   }
 
   function onMouseDown() {
@@ -95,10 +99,10 @@
     </div>
   {/if}
 
-  <svg width="{RectangleData.width * scalingFactor}" height="{RectangleData.height * scalingFactor}">
+  <svg width="{width}" height="{height}">
     <rect
-      width="{RectangleData.width * scalingFactor}"
-      height="{RectangleData.height * scalingFactor}"
+      width="{width}"
+      height="{height}"
       style="fill:{RectangleData.fillColor};stroke-width:3;stroke:#000000"
     />
   </svg>

@@ -12,15 +12,18 @@
 
   let left: number;
   let top: number;
+	let radius: number;
   let zIndex: number = 1;
+  export let scalingFactor: number = 1;
   $: {
-    left = window.innerWidth / 2 + CircleData.x - CircleData.radius;
-    top = window.innerHeight / 2 + CircleData.y - CircleData.radius;
+		left = window.innerWidth / 2 + (CircleData.x - CircleData.radius) * scalingFactor;
+		top = window.innerHeight / 2 + (CircleData.y - CircleData.radius) * scalingFactor;
+		radius = CircleData.radius * scalingFactor;
   }
 
   function onMouseDown() {
     moving = true;
-	zIndex = 999;
+		zIndex = 999;
   }
 
   function onMouseMove(event: MouseEvent) {
@@ -32,7 +35,7 @@
 
   function onMouseUp() {
     moving = false;
-	zIndex = 1;
+		zIndex = 1;
   }
 
   function handleContextMenu(event: MouseEvent) {
@@ -48,8 +51,8 @@
     window.addEventListener("resize", () => {
       showContextMenu = false;
       moving = false;
-      left = window.innerWidth / 2 + CircleData.x - CircleData.radius;
-      top = window.innerHeight / 2 + CircleData.y - CircleData.radius;
+			left = window.innerWidth / 2 + (CircleData.x - CircleData.radius) * scalingFactor;
+			top = window.innerHeight / 2 + (CircleData.y - CircleData.radius) * scalingFactor;
     });
     window.addEventListener("mouseout", (event: MouseEvent) => {
       if (event.relatedTarget === null && moving) {
@@ -95,11 +98,11 @@
     </div>
   {/if}
 
-  <svg width="{CircleData.radius * 2}" height="{CircleData.radius * 2}">
+  <svg width="{radius * 2}" height="{radius *2}">
     <circle
-      cx="{CircleData.radius}"
-      cy="{CircleData.radius}"
-      r="{CircleData.radius}"
+      cx="{radius}"
+      cy="{radius}"
+      r="{radius}"
       style="fill:{CircleData.fillColor};stroke-width:3;stroke:#000000"
     />
   </svg>
