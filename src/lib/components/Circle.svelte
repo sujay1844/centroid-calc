@@ -17,7 +17,7 @@
   export let scalingFactor: number = 1;
   $: {
 		left = window.innerWidth / 2 + (CircleData.x - CircleData.radius) * scalingFactor;
-		top = window.innerHeight / 2 + (CircleData.y - CircleData.radius) * scalingFactor;
+		top = window.innerHeight / 2 - (CircleData.y + CircleData.radius) * scalingFactor;
 		radius = CircleData.radius * scalingFactor;
   }
 
@@ -31,7 +31,7 @@
   function onMouseMove(event: MouseEvent) {
     if (moving) {
       CircleData.x += event.movementX / scalingFactor;
-      CircleData.y += event.movementY / scalingFactor;
+      CircleData.y -= event.movementY / scalingFactor;
     }
   }
 
@@ -54,7 +54,7 @@
       showContextMenu = false;
       moving = false;
 			left = window.innerWidth / 2 + (CircleData.x - CircleData.radius) * scalingFactor;
-			top = window.innerHeight / 2 + (CircleData.y - CircleData.radius) * scalingFactor;
+			top = window.innerHeight / 2 - (CircleData.y + CircleData.radius) * scalingFactor;
     });
     window.addEventListener("mouseout", (event: MouseEvent) => {
       if (event.relatedTarget === null && moving) {

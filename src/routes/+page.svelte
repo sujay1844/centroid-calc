@@ -11,6 +11,8 @@
   let rectangles: RectangleDataType[] = [];
   let circles: CircleDataType[] = [];
 
+  let centroid: { x: number; y: number } = { x: 0, y: 0 };
+
   function createRandomRectangle(): void {
     const width: number = getRandomNumber(100, 400);
     const height: number = getRandomNumber(100, 400);
@@ -78,6 +80,46 @@
       }
     });
   });
+
+  function getCentroid(): { x: number; y: number } {
+    const areas: number[] = [];
+    const centroids: { x: number; y: number }[] = [];
+    rectangles.forEach(rectangle => {
+      const area: number = rectangle.width * rectangle.height;
+      const centroid: { x: number; y: number } = {
+        x: rectangle.x,
+        y: rectangle.y,
+      };
+      areas.push(area);
+      centroids.push(centroid);
+    });
+    circles.forEach(circle => {
+      const area: number = Math.PI * circle.radius * circle.radius;
+      const centroid: { x: number; y: number } = {
+        x: circle.x,
+        y: circle.y,
+      };
+      areas.push(area);
+      centroids.push(centroid);
+    });
+    console.log(areas);
+    console.log(centroids);
+
+    const totalArea: number = areas.reduce((a, b) => a + b, 0);
+    const x: number = centroids.reduce(
+      (currentCentroid, nextCentroid, i) => currentCentroid + nextCentroid.x * areas[i] / totalArea,
+      0
+    );
+    const y: number = centroids.reduce(
+      (currentCentroid, nextCentroid, i) => currentCentroid + nextCentroid.y * areas[i] / totalArea,
+      0
+    );
+    return { x: x, y: y };
+  }
+  function updateCentroid(): void {
+    centroid = getCentroid();
+  }
+    
 </script>
 
 <style>
@@ -110,6 +152,8 @@
   </h1>
   <p>Click and drag to move shapes</p>
   <p>Right click to edit them</p>
+  <button on:click={updateCentroid}>Calculate Centroid</button>
+  <h1>Centroid = ({centroid.x}, {centroid.y})</h1>
   <GithubLink />
 
   {#each rectangles as rectangle}

@@ -19,13 +19,14 @@
 			closeContextMenu();
 		});
 
-		window.addEventListener("click", (event: MouseEvent) => {
-			if (!event.target.closest(".context-menu")) {
-			closeContextMenu();
-		}
+		window.addEventListener("click", (event: Event) => {
+			const target = event.target as HTMLElement;
+			if (target == null || !target.closest(".context-menu")) {
+				closeContextMenu();
+			}
 		});
 
-		document.querySelector(".context-menu")?.addEventListener("click", (event: MouseEvent) => {
+		document.querySelector(".context-menu")?.addEventListener("click", (event: Event) => {
 			event.stopPropagation();
 		});
 
@@ -34,7 +35,7 @@
 </script>
 
 <div class="context-menu">
-	<button on:click={deleteCircle}>🗑</button>
+	<button on:click={deleteCircle}>🗑 Delete</button>
 	<button on:click={closeContextMenu}>✕</button>
 
   <form>

@@ -18,7 +18,7 @@
   export let scalingFactor: number = 1;
   $: {
     left = window.innerWidth / 2 + (RectangleData.x - RectangleData.width / 2) * scalingFactor;
-    top = window.innerHeight / 2 + (RectangleData.y - RectangleData.height / 2) * scalingFactor;
+    top = window.innerHeight / 2 - (RectangleData.y + RectangleData.height / 2) * scalingFactor;
     width = RectangleData.width * scalingFactor;
     height = RectangleData.height * scalingFactor;
   }
@@ -33,7 +33,7 @@
   function onMouseMove(event: MouseEvent) {
     if (moving) {
       RectangleData.x += event.movementX / scalingFactor;
-      RectangleData.y += event.movementY / scalingFactor;
+      RectangleData.y -= event.movementY / scalingFactor;
     }
   }
 
@@ -56,7 +56,7 @@
       showContextMenu = false;
       moving = false;
       left = window.innerWidth / 2 + (RectangleData.x - RectangleData.width / 2) * scalingFactor;
-      top = window.innerHeight / 2 + (RectangleData.y - RectangleData.height / 2) * scalingFactor;
+      top = window.innerHeight / 2 - (RectangleData.y + RectangleData.height / 2) * scalingFactor;
     });
     window.addEventListener("mouseout", (event: MouseEvent) => {
       if (moving) {
