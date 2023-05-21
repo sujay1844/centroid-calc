@@ -12,6 +12,7 @@
 
   let left: number;
   let top: number;
+  let zIndex: number = 1;
   $: {
     left = window.innerWidth / 2 + CircleData.x - CircleData.radius;
     top = window.innerHeight / 2 + CircleData.y - CircleData.radius;
@@ -19,6 +20,7 @@
 
   function onMouseDown() {
     moving = true;
+	zIndex = 999;
   }
 
   function onMouseMove(event: MouseEvent) {
@@ -30,6 +32,7 @@
 
   function onMouseUp() {
     moving = false;
+	zIndex = 1;
   }
 
   function handleContextMenu(event: MouseEvent) {
@@ -74,7 +77,7 @@
   on:mousemove={onMouseMove}
   on:contextmenu={handleContextMenu}
   class="draggable"
-  style="left:{left}px;top:{top}px;"
+  style="left:{left}px; top:{top}px; z-index:{zIndex};"
 >
   {#if showContextMenu}
     <div class="context-menu">

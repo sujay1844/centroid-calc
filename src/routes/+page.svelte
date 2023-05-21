@@ -98,6 +98,9 @@
   <button on:click={createRandomRectangle}>+ Rectangle</button>
   <button on:click={createRandomCircle}>+ Circle</button>
   </h1>
+  <p>Click and drag to move shapes</p>
+  <p>Right click to edit them</p>
+
   {#each rectangles as rectangle}
     <Rectangle
     bind:RectangleData={rectangle}
