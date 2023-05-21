@@ -2,10 +2,12 @@
   import { onMount } from "svelte";
 
   import Rectangle from "$lib/components/Rectangle.svelte";
-  import type { RectangleDataType } from "$lib/models";
+  import Circle from "$lib/components/Circle.svelte";
+  import type { RectangleDataType, CircleDataType } from "$lib/models";
 
 
   let rectangles: RectangleDataType[] = [];
+  let circles: CircleDataType[] = [];
 
   function createRandomRectangle(): void {
     const width: number = getRandomNumber(100, 400);
@@ -19,10 +21,25 @@
       {
         width: width,
         height: height,
-        left: left,
-        top: top,
         x: left - window.innerWidth / 2 + width / 2,
         y: top - window.innerHeight / 2 + height / 2,
+        fillColor: fillColor,
+      }
+    ];
+  }
+
+  function createRandomCircle(): void {
+    const radius: number = getRandomNumber(50, 200);
+    const left: number = getRandomNumber(0, window.innerWidth - radius);
+    const top: number = getRandomNumber(0, window.innerHeight - radius);
+    const fillColor: string = getRandomColor();
+
+    circles = [
+      ...circles,
+      {
+        radius: radius,
+        x: left - window.innerWidth / 2 + radius / 2,
+        y: top - window.innerHeight / 2 + radius / 2,
         fillColor: fillColor,
       }
     ];
@@ -41,9 +58,14 @@
     return color;
   }
 
-  function handleDelete(event: CustomEvent): void {
+  function handleDeleteRectangle(event: CustomEvent): void {
     const rectangle: RectangleDataType = event.detail;
     rectangles = rectangles.filter((r: RectangleDataType) => r !== rectangle);
+  }
+
+  function handleDeleteCircle(event: CustomEvent): void {
+    const circle: CircleDataType = event.detail;
+    circles = circles.filter((c: CircleDataType) => c !== circle);
   }
 
 </script>
@@ -72,13 +94,20 @@
 <section>
   <div class="x-axis"></div>
   <div class="y-axis"></div>
-  <h1>Generate rectangles
-  <button on:click={createRandomRectangle}>+</button>
+  <h1>Generate Shapes
+  <button on:click={createRandomRectangle}>+ Rectangle</button>
+  <button on:click={createRandomCircle}>+ Circle</button>
   </h1>
   {#each rectangles as rectangle}
     <Rectangle
     bind:RectangleData={rectangle}
-    on:delete={handleDelete}
+    on:delete={handleDeleteRectangle}
+    />
+  {/each}
+  {#each circles as circle}
+    <Circle
+    bind:CircleData={circle}
+    on:delete={handleDeleteCircle}
     />
   {/each}
 </section>

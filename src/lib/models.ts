@@ -3,7 +3,12 @@ export interface RectangleDataType {
 	height: number;
 	x: number;
 	y: number;
-	left: number;
-	top: number;
+	fillColor: string;
+}
+
+export interface CircleDataType {
+	radius: number;
+	x: number;
+	y: number;
 	fillColor: string;
 }

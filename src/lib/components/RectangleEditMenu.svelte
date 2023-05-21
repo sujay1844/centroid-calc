@@ -5,11 +5,6 @@
   const dispatch = createEventDispatcher();
 	export let RectangleData: RectangleDataType;
 
-  $: {
-		RectangleData.left = window.innerWidth / 2 + RectangleData.x - RectangleData.width / 2;
-		RectangleData.top = window.innerHeight / 2 + RectangleData.y - RectangleData.height / 2;
-  }
-
 	function rotate() {
 		const temp = RectangleData.width;
 		RectangleData.width = RectangleData.height;
