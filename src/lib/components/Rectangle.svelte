@@ -24,14 +24,16 @@
   }
 
   function onMouseDown() {
-    moving = true;
-    zIndex = 999;
+    if (!showContextMenu) {
+      moving = true;
+      zIndex = 999;
+    }
   }
 
   function onMouseMove(event: MouseEvent) {
     if (moving) {
-      RectangleData.x += event.movementX;
-      RectangleData.y += event.movementY;
+      RectangleData.x += event.movementX / scalingFactor;
+      RectangleData.y += event.movementY / scalingFactor;
     }
   }
 
@@ -57,7 +59,7 @@
       top = window.innerHeight / 2 + (RectangleData.y - RectangleData.height / 2) * scalingFactor;
     });
     window.addEventListener("mouseout", (event: MouseEvent) => {
-      if (event.relatedTarget === null && moving) {
+      if (moving) {
         moving = false;
         zIndex = 1;
       }

@@ -22,14 +22,16 @@
   }
 
   function onMouseDown() {
-    moving = true;
-		zIndex = 999;
+		if (!showContextMenu) {
+			moving = true;
+			zIndex = 999;
+		}
   }
 
   function onMouseMove(event: MouseEvent) {
     if (moving) {
-      CircleData.x += event.movementX;
-      CircleData.y += event.movementY;
+      CircleData.x += event.movementX / scalingFactor;
+      CircleData.y += event.movementY / scalingFactor;
     }
   }
 

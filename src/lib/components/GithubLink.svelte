@@ -1,5 +1,8 @@
 <script>
   export let link = 'https://github.com/sujay1844/centroid-calc';
+	function handleClick() {
+		window.open(link, '_blank');
+	}
 </script>
 
 <style>
@@ -26,10 +29,7 @@
   }
 </style>
 
-<section>
-  <a class="github-button" href={link} target="_blank">
+<button class="github-button" on:click={handleClick}>
 		<img src="github-mark-white.svg" alt="GitHub" width="24" height="24" />
-
 		<span style="margin-left: 8px;">View on GitHub</span>
-	</a>
-</section>
+</button>
