@@ -51,6 +51,12 @@
       left = window.innerWidth / 2 + RectangleData.x - RectangleData.width / 2;
       top = window.innerHeight / 2 + RectangleData.y - RectangleData.height / 2;
     });
+    window.addEventListener("mouseout", (event: MouseEvent) => {
+      if (event.relatedTarget === null && moving) {
+        moving = false;
+        zIndex = 1;
+      }
+    });
   });
 
 </script>

@@ -51,6 +51,12 @@
       left = window.innerWidth / 2 + CircleData.x - CircleData.radius;
       top = window.innerHeight / 2 + CircleData.y - CircleData.radius;
     });
+    window.addEventListener("mouseout", (event: MouseEvent) => {
+      if (event.relatedTarget === null && moving) {
+        moving = false;
+        zIndex = 1;
+      }
+    });
   });
 
 </script>
