@@ -12,3 +12,13 @@ export interface CircleDataType {
 	y: number;
 	fillColor: string;
 }
+
+export interface TriangleDataType {
+	width: number;
+	height: number;
+	x: number;
+	y: number;
+	flippedVertically: boolean;
+	flippedHorizontally: boolean;
+	fillColor: string;
+}

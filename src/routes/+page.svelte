@@ -3,13 +3,15 @@
 
   import Rectangle from "$lib/components/Rectangle.svelte";
   import Circle from "$lib/components/Circle.svelte";
+  import Triangle from "$lib/components/Triangle.svelte";
   import GithubLink from "$lib/components/GithubLink.svelte";
-  import type { RectangleDataType, CircleDataType } from "$lib/models";
+  import type { RectangleDataType, CircleDataType, TriangleDataType } from "$lib/models";
 
   let scalingFactor: number = 1;
 
   let rectangles: RectangleDataType[] = [];
   let circles: CircleDataType[] = [];
+  let triangles: TriangleDataType[] = [];
 
   let centroid: { x: number; y: number } = { x: 0, y: 0 };
 
@@ -49,6 +51,28 @@
     ];
   }
 
+  function createRandomTriangle(): void {
+    const width: number = getRandomNumber(100, 400);
+    const height: number = getRandomNumber(100, 400);
+    const left: number = getRandomNumber(0, window.innerWidth - width);
+    const top: number = getRandomNumber(0, window.innerHeight - height);
+    const fillColor: string = getRandomColor();
+
+    triangles = [
+      ...triangles,
+      {
+        width: width,
+        height: height,
+        x: left - window.innerWidth / 2 + width / 2,
+        y: top - window.innerHeight / 2 + height / 2,
+        fillColor: fillColor,
+        flippedHorizontally: false,
+        flippedVertically: false,
+      }
+    ];
+    console.log(triangles);
+  }
+
   function getRandomNumber(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
@@ -70,6 +94,10 @@
   function handleDeleteCircle(event: CustomEvent): void {
     const circle: CircleDataType = event.detail;
     circles = circles.filter((c: CircleDataType) => c !== circle);
+  }
+  function handleDeleteTriangle(event: CustomEvent): void {
+    const triangle: TriangleDataType = event.detail;
+    triangles = triangles.filter((t: TriangleDataType) => t !== triangle);
   }
 
   onMount(() => {
@@ -102,6 +130,16 @@
       areas.push(area);
       centroids.push(centroid);
     });
+    triangles.forEach(triangle => {
+      const area: number = triangle.width * triangle.height / 2;
+      const centroid: { x: number; y: number } = {
+        x: triangle.x,
+        y: triangle.y,
+      };
+      areas.push(area);
+      centroids.push(centroid);
+    });
+
     console.log(areas);
     console.log(centroids);
 
@@ -149,6 +187,7 @@
   <h1>Generate Shapes
   <button on:click={createRandomRectangle}>+ Rectangle</button>
   <button on:click={createRandomCircle}>+ Circle</button>
+  <button on:click={createRandomTriangle}>+ Triangle</button>
   </h1>
   <p>Click and drag to move shapes</p>
   <p>Right click to edit them</p>
@@ -168,6 +207,13 @@
     bind:CircleData={circle}
     bind:scalingFactor={scalingFactor}
     on:delete={handleDeleteCircle}
+    />
+  {/each}
+  {#each triangles as triangle}
+    <Triangle
+    bind:TriangleData={triangle}
+    bind:scalingFactor={scalingFactor}
+    on:delete={handleDeleteTriangle}
     />
   {/each}
   
