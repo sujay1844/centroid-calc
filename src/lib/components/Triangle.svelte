@@ -1,7 +1,8 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
-  import type { TriangleDataType } from "$lib/models";
+  import type { TriangleDataType, Point } from "$lib/models";
+  import { scalingFactor } from "$lib/store";
   import { onMount } from "svelte";
   import TriangleEditMenu from './TriangleEditMenu.svelte';
 
@@ -12,15 +13,33 @@
 
   let left: number;
   let top: number;
+  let leftRelToShape: number;
+  let topRelToShape: number;
   let width: number;
   let height: number;
   let zIndex: number = 1;
-  export let scalingFactor: number = 1;
+  let centroid: Point = {x:0, y:0};
   $: {
-    left = window.innerWidth / 2 + (TriangleData.x - TriangleData.width / 2) * scalingFactor;
-    top = window.innerHeight / 2 - (TriangleData.y + TriangleData.height / 2) * scalingFactor;
-    width = TriangleData.width * scalingFactor;
-    height = TriangleData.height * scalingFactor;
+    
+    if (TriangleData.flippedVertically && TriangleData.flippedHorizontally) {
+      centroid.x = 2 * TriangleData.width / 3;
+      centroid.y = TriangleData.height / 3;
+    } else if (TriangleData.flippedHorizontally) {
+      centroid.x = TriangleData.width / 3;
+      centroid.y = TriangleData.height / 3;
+    } else if (TriangleData.flippedVertically) {
+      centroid.x = 2 * TriangleData.width / 3;
+      centroid.y = 2 * TriangleData.height / 3;
+    } else {
+      centroid.x = TriangleData.width / 3;
+      centroid.y = 2 * TriangleData.height / 3;
+    }
+    leftRelToShape = (TriangleData.x - centroid.x) * $scalingFactor;
+    topRelToShape = (TriangleData.y + centroid.y) * $scalingFactor;
+    left = window.innerWidth / 2 + leftRelToShape;
+    top = window.innerHeight / 2 - topRelToShape;
+    width = TriangleData.width * $scalingFactor;
+    height = TriangleData.height * $scalingFactor;
   }
 
   function onMouseDown() {
@@ -32,8 +51,8 @@
 
   function onMouseMove(event: MouseEvent) {
     if (moving) {
-      TriangleData.x += event.movementX / scalingFactor;
-      TriangleData.y -= event.movementY / scalingFactor;
+      TriangleData.x += event.movementX / $scalingFactor;
+      TriangleData.y -= event.movementY / $scalingFactor;
     }
   }
 
@@ -55,8 +74,6 @@
     window.addEventListener("resize", () => {
       showContextMenu = false;
       moving = false;
-      left = window.innerWidth / 2 + (TriangleData.x - TriangleData.width / 2) * scalingFactor;
-      top = window.innerHeight / 2 - (TriangleData.y + TriangleData.height / 2) * scalingFactor;
     });
     window.addEventListener("mouseout", (event: MouseEvent) => {
       if (moving) {
@@ -106,7 +123,7 @@
     <svg viewBox={`0 0 ${width} ${height}`} width={width} height={height}>
       <polygon
         points={`0,0 ${width},0 ${width},${height}`}
-        style="fill:{TriangleData.fillColor};stroke-width:3;stroke:#000000"
+        style="fill:{TriangleData.fillColor}"
       />
     </svg>
 
@@ -114,7 +131,7 @@
     <svg viewBox={`0 0 ${width} ${height}`} width={width} height={height}>
       <polygon
         points={`0,0 ${width},0 0,${height}`}
-        style="fill:{TriangleData.fillColor};stroke-width:3;stroke:#000000"
+        style="fill:{TriangleData.fillColor}"
       />
     </svg>
 
@@ -122,14 +139,14 @@
     <svg viewBox={`0 0 ${width} ${height}`} width={width} height={height}>
       <polygon
         points={`${width},0 ${width},${height} 0,${height}`}
-        style="fill:{TriangleData.fillColor};stroke-width:3;stroke:#000000"
+        style="fill:{TriangleData.fillColor}"
       />
     </svg>
     {:else}
     <svg viewBox={`0 0 ${width} ${height}`} width={width} height={height}>
       <polygon
         points={`0,0 0,${height} ${width},${height}`}
-        style="fill:{TriangleData.fillColor};stroke-width:3;stroke:#000000"
+        style="fill:{TriangleData.fillColor}"
       />
     </svg>
     {/if}

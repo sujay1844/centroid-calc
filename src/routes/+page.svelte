@@ -1,19 +1,18 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { scalingFactor } from "$lib/store";
 
   import Rectangle from "$lib/components/Rectangle.svelte";
   import Circle from "$lib/components/Circle.svelte";
   import Triangle from "$lib/components/Triangle.svelte";
   import GithubLink from "$lib/components/GithubLink.svelte";
-  import type { RectangleDataType, CircleDataType, TriangleDataType } from "$lib/models";
-
-  let scalingFactor: number = 1;
+  import type { RectangleDataType, CircleDataType, TriangleDataType, Point } from "$lib/models";
 
   let rectangles: RectangleDataType[] = [];
   let circles: CircleDataType[] = [];
   let triangles: TriangleDataType[] = [];
 
-  let centroid: { x: number; y: number } = { x: 0, y: 0 };
+  let centroid: Point = { x: 0, y: 0 };
 
   function createRandomRectangle(): void {
     const width: number = getRandomNumber(100, 400);
@@ -104,7 +103,7 @@
     window.addEventListener("wheel", (event: WheelEvent) => {
       if (event.ctrlKey) {
         event.preventDefault();
-        scalingFactor += event.deltaY * -0.01;
+        $scalingFactor += event.deltaY * -0.01;
       }
     });
   });
@@ -198,21 +197,18 @@
   {#each rectangles as rectangle}
     <Rectangle
     bind:RectangleData={rectangle}
-    bind:scalingFactor={scalingFactor}
     on:delete={handleDeleteRectangle}
     />
   {/each}
   {#each circles as circle}
     <Circle
     bind:CircleData={circle}
-    bind:scalingFactor={scalingFactor}
     on:delete={handleDeleteCircle}
     />
   {/each}
   {#each triangles as triangle}
     <Triangle
     bind:TriangleData={triangle}
-    bind:scalingFactor={scalingFactor}
     on:delete={handleDeleteTriangle}
     />
   {/each}

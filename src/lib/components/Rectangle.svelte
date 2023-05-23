@@ -2,6 +2,7 @@
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
   import type { RectangleDataType } from "$lib/models";
+  import { scalingFactor } from "$lib/store" 
   import RectangleEditMenu from "./RectangleEditMenu.svelte";
   import { onMount } from "svelte";
 
@@ -15,12 +16,11 @@
   let width: number;
   let height: number;
   let zIndex: number = 1;
-  export let scalingFactor: number = 1;
   $: {
-    left = window.innerWidth / 2 + (RectangleData.x - RectangleData.width / 2) * scalingFactor;
-    top = window.innerHeight / 2 - (RectangleData.y + RectangleData.height / 2) * scalingFactor;
-    width = RectangleData.width * scalingFactor;
-    height = RectangleData.height * scalingFactor;
+    left = window.innerWidth / 2 + (RectangleData.x - RectangleData.width / 2) * $scalingFactor;
+    top = window.innerHeight / 2 - (RectangleData.y + RectangleData.height / 2) * $scalingFactor;
+    width = RectangleData.width * $scalingFactor;
+    height = RectangleData.height * $scalingFactor;
   }
 
   function onMouseDown() {
@@ -32,8 +32,8 @@
 
   function onMouseMove(event: MouseEvent) {
     if (moving) {
-      RectangleData.x += event.movementX / scalingFactor;
-      RectangleData.y -= event.movementY / scalingFactor;
+      RectangleData.x += event.movementX / $scalingFactor;
+      RectangleData.y -= event.movementY / $scalingFactor;
     }
   }
 
@@ -55,8 +55,8 @@
     window.addEventListener("resize", () => {
       showContextMenu = false;
       moving = false;
-      left = window.innerWidth / 2 + (RectangleData.x - RectangleData.width / 2) * scalingFactor;
-      top = window.innerHeight / 2 - (RectangleData.y + RectangleData.height / 2) * scalingFactor;
+      left = window.innerWidth / 2 + (RectangleData.x - RectangleData.width / 2) * $scalingFactor;
+      top = window.innerHeight / 2 - (RectangleData.y + RectangleData.height / 2) * $scalingFactor;
     });
     window.addEventListener("mouseout", (event: MouseEvent) => {
       if (moving) {
@@ -105,7 +105,7 @@
     <rect
       width="{width}"
       height="{height}"
-      style="fill:{RectangleData.fillColor};stroke-width:3;stroke:#000000"
+      style="fill:{RectangleData.fillColor}"
     />
   </svg>
 </section>

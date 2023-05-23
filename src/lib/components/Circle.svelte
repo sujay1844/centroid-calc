@@ -2,6 +2,7 @@
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
   import type { CircleDataType } from "$lib/models";
+  import { scalingFactor } from "$lib/store";
   import CircleEditMenu from "./CircleEditMenu.svelte";
   import { onMount } from "svelte";
 
@@ -14,11 +15,10 @@
   let top: number;
 	let radius: number;
   let zIndex: number = 1;
-  export let scalingFactor: number = 1;
   $: {
-		left = window.innerWidth / 2 + (CircleData.x - CircleData.radius) * scalingFactor;
-		top = window.innerHeight / 2 - (CircleData.y + CircleData.radius) * scalingFactor;
-		radius = CircleData.radius * scalingFactor;
+		left = window.innerWidth / 2 + (CircleData.x - CircleData.radius) * $scalingFactor;
+		top = window.innerHeight / 2 - (CircleData.y + CircleData.radius) * $scalingFactor;
+		radius = CircleData.radius * $scalingFactor;
   }
 
   function onMouseDown() {
@@ -30,8 +30,8 @@
 
   function onMouseMove(event: MouseEvent) {
     if (moving) {
-      CircleData.x += event.movementX / scalingFactor;
-      CircleData.y -= event.movementY / scalingFactor;
+      CircleData.x += event.movementX / $scalingFactor;
+      CircleData.y -= event.movementY / $scalingFactor;
     }
   }
 
@@ -53,8 +53,8 @@
     window.addEventListener("resize", () => {
       showContextMenu = false;
       moving = false;
-			left = window.innerWidth / 2 + (CircleData.x - CircleData.radius) * scalingFactor;
-			top = window.innerHeight / 2 - (CircleData.y + CircleData.radius) * scalingFactor;
+			left = window.innerWidth / 2 + (CircleData.x - CircleData.radius) * $scalingFactor;
+			top = window.innerHeight / 2 - (CircleData.y + CircleData.radius) * $scalingFactor;
     });
     window.addEventListener("mouseout", (event: MouseEvent) => {
       if (event.relatedTarget === null && moving) {
@@ -105,7 +105,7 @@
       cx="{radius}"
       cy="{radius}"
       r="{radius}"
-      style="fill:{CircleData.fillColor};stroke-width:3;stroke:#000000"
+      style="fill:{CircleData.fillColor}"
     />
   </svg>
 </section>
