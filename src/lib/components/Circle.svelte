@@ -101,11 +101,14 @@
   {/if}
 
   <svg width="{radius * 2}" height="{radius *2}">
+    <pattern id="diagonalPattern" patternUnits="userSpaceOnUse" width="20" height="20">
+      <line x1="0" y1="0" x2="20" y2="20" stroke="red" stroke-width="1" />
+    </pattern>
     <circle
       cx="{radius}"
       cy="{radius}"
       r="{radius}"
-      style="fill:{CircleData.fillColor}"
+      style="fill:{CircleData.isFilled? CircleData.fillColor: 'url(#diagonalPattern)'}"
     />
   </svg>
 </section>

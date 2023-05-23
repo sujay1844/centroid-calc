@@ -7,6 +7,7 @@
   import Triangle from "$lib/components/Triangle.svelte";
   import GithubLink from "$lib/components/GithubLink.svelte";
   import type { RectangleDataType, CircleDataType, TriangleDataType, Point } from "$lib/models";
+    import { readable } from "svelte/store";
 
   let rectangles: RectangleDataType[] = [];
   let circles: CircleDataType[] = [];
@@ -29,6 +30,7 @@
         x: left - window.innerWidth / 2 + width / 2,
         y: top - window.innerHeight / 2 + height / 2,
         fillColor: fillColor,
+        isFilled: true,
       }
     ];
   }
@@ -46,6 +48,7 @@
         x: left - window.innerWidth / 2 + radius / 2,
         y: top - window.innerHeight / 2 + radius / 2,
         fillColor: fillColor,
+        isFilled: true,
       }
     ];
   }
@@ -67,6 +70,7 @@
         fillColor: fillColor,
         flippedHorizontally: false,
         flippedVertically: false,
+        isFilled: true,
       }
     ];
     console.log(triangles);
@@ -112,7 +116,7 @@
     const areas: number[] = [];
     const centroids: { x: number; y: number }[] = [];
     rectangles.forEach(rectangle => {
-      const area: number = rectangle.width * rectangle.height;
+      const area: number = rectangle.width * rectangle.height * (rectangle.isFilled? 1: -1);
       const centroid: { x: number; y: number } = {
         x: rectangle.x,
         y: rectangle.y,
@@ -121,7 +125,7 @@
       centroids.push(centroid);
     });
     circles.forEach(circle => {
-      const area: number = Math.PI * circle.radius * circle.radius;
+      const area: number = Math.PI * circle.radius * circle.radius * (circle.isFilled? 1: -1);
       const centroid: { x: number; y: number } = {
         x: circle.x,
         y: circle.y,
@@ -130,7 +134,7 @@
       centroids.push(centroid);
     });
     triangles.forEach(triangle => {
-      const area: number = triangle.width * triangle.height / 2;
+      const area: number = triangle.width * triangle.height / 2 * (triangle.isFilled? 1: -1);
       const centroid: { x: number; y: number } = {
         x: triangle.x,
         y: triangle.y,

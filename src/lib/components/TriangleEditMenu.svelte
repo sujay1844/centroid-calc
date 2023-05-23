@@ -44,24 +44,33 @@
 	<button on:click={handleDelete}>🗑 Delete</button>
 	<button on:click={closeContextMenu}>✕</button>
 	<form>
+		<label for="isFilled">Filled:</label>
+		<input type="checkbox" id="isFilled" bind:checked={TriangleData.isFilled} />
+	<br>
+
 		<label for="width">Width:</label>
 		<input type="number" id="width" bind:value={TriangleData.width} />
 		<input type="range" id="width-range" min=0 max=500 bind:value={TriangleData.width} /> {TriangleData.width}
+	<br>
 
 		<label for="height">Height:</label>
 		<input type="number" id="height" bind:value={TriangleData.height} />
 		<input type="range" id="height-range" min=0 max=500 bind:value={TriangleData.height} /> {TriangleData.height}
+	<br>
 
 		<label for="x">X:</label>
 		<input type="number" id="x" bind:value={TriangleData.x} />
 		<input type="range" id="x-range" min=-100 max=100 bind:value={TriangleData.x} /> {TriangleData.x}
+	<br>
 
 		<label for="y">Y:</label>
 		<input type="number" id="y" bind:value={TriangleData.y} />
 		<input type="range" id="y-range" min=-100 max=100 bind:value={TriangleData.y} /> {TriangleData.y}
+	<br>
 
 		<label for="fillColor">Fill color:</label>
 		<input type="text" id="fillColor" bind:value={TriangleData.fillColor} />
+	<br>
 
 	</form>
 

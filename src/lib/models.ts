@@ -9,6 +9,7 @@ export interface RectangleDataType {
 	x: number;
 	y: number;
 	fillColor: string;
+	isFilled: boolean;
 }
 
 export interface CircleDataType {
@@ -16,6 +17,7 @@ export interface CircleDataType {
 	x: number;
 	y: number;
 	fillColor: string;
+	isFilled: boolean;
 }
 
 export interface TriangleDataType {
@@ -26,4 +28,5 @@ export interface TriangleDataType {
 	flippedVertically: boolean;
 	flippedHorizontally: boolean;
 	fillColor: string;
+	isFilled: boolean;
 }

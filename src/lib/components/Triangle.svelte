@@ -118,37 +118,34 @@
     </div>
   {/if}
 
+    <svg viewBox={`0 0 ${width} ${height}`} width={width} height={height}>
+    <pattern id="diagonalPattern" patternUnits="userSpaceOnUse" width="20" height="20">
+      <line x1="0" y1="0" x2="20" y2="20" stroke="red" stroke-width="1" />
+    </pattern>
     {#if TriangleData.flippedHorizontally && TriangleData.flippedVertically}
 
-    <svg viewBox={`0 0 ${width} ${height}`} width={width} height={height}>
       <polygon
         points={`0,0 ${width},0 ${width},${height}`}
-        style="fill:{TriangleData.fillColor}"
+        style="fill:{TriangleData.isFilled? TriangleData.fillColor: 'url(#diagonalPattern)'}"
       />
-    </svg>
 
     {:else if TriangleData.flippedHorizontally}
-    <svg viewBox={`0 0 ${width} ${height}`} width={width} height={height}>
       <polygon
         points={`0,0 ${width},0 0,${height}`}
-        style="fill:{TriangleData.fillColor}"
+        style="fill:{TriangleData.isFilled? TriangleData.fillColor: 'url(#diagonalPattern)'}"
       />
-    </svg>
 
     {:else if TriangleData.flippedVertically}
-    <svg viewBox={`0 0 ${width} ${height}`} width={width} height={height}>
       <polygon
         points={`${width},0 ${width},${height} 0,${height}`}
-        style="fill:{TriangleData.fillColor}"
+        style="fill:{TriangleData.isFilled? TriangleData.fillColor: 'url(#diagonalPattern)'}"
       />
-    </svg>
     {:else}
-    <svg viewBox={`0 0 ${width} ${height}`} width={width} height={height}>
       <polygon
         points={`0,0 0,${height} ${width},${height}`}
-        style="fill:{TriangleData.fillColor}"
+        style="fill:{TriangleData.isFilled? TriangleData.fillColor: 'url(#diagonalPattern)'}"
       />
-    </svg>
     {/if}
+    </svg>
 
 </section>

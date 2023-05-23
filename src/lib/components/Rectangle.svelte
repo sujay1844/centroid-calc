@@ -102,10 +102,13 @@
   {/if}
 
   <svg width="{width}" height="{height}">
+    <pattern id="diagonalPattern" patternUnits="userSpaceOnUse" width="20" height="20">
+      <line x1="0" y1="0" x2="20" y2="20" stroke="red" stroke-width="1" />
+    </pattern>
     <rect
       width="{width}"
       height="{height}"
-      style="fill:{RectangleData.fillColor}"
+      style="fill:{RectangleData.isFilled? RectangleData.fillColor: 'url(#diagonalPattern)'}"
     />
   </svg>
 </section>
