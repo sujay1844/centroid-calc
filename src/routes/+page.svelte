@@ -188,7 +188,8 @@
 		border-radius: 0px;
 		background-color: #222;
 		color: white;
-		width: 2rem;
+		height: 20px;
+		font-size: 15px;
 	}
 </style>
 
