@@ -19,7 +19,7 @@ Using the calculator is pretty straightforward. Simply add a shape that you want
 ![Rectangle settings](static/rectangle_settings.png)
 
 ### Triangle
-Currently, only right-angled triangles are supported.
+Currently, only right-angled triangles are supported.<br>
 ![Triangle settings](static/triangle_settings.png)
 
 <br><br><br>
