@@ -185,11 +185,12 @@
 	}
 
 	button {
-		border-radius: 0px;
+		border-radius: 5px;
 		background-color: #222;
 		color: white;
 		height: 20px;
 		font-size: 15px;
+		padding: 5px;
 	}
 </style>
 
