@@ -7,7 +7,7 @@
   import Triangle from "$lib/components/Triangle.svelte";
   import GithubLink from "$lib/components/GithubLink.svelte";
   import type { RectangleDataType, CircleDataType, TriangleDataType, Point } from "$lib/models";
-    import { readable } from "svelte/store";
+  import { readable } from "svelte/store";
 
   let rectangles: RectangleDataType[] = [];
   let circles: CircleDataType[] = [];
@@ -116,7 +116,7 @@
     const areas: number[] = [];
     const centroids: { x: number; y: number }[] = [];
     rectangles.forEach(rectangle => {
-      const area: number = rectangle.width * rectangle.height * (rectangle.isFilled? 1: -1);
+      const area: number = rectangle.width * rectangle.height * (rectangle.isFilled ? 1 : -1);
       const centroid: { x: number; y: number } = {
         x: rectangle.x,
         y: rectangle.y,
@@ -125,7 +125,7 @@
       centroids.push(centroid);
     });
     circles.forEach(circle => {
-      const area: number = Math.PI * circle.radius * circle.radius * (circle.isFilled? 1: -1);
+      const area: number = Math.PI * circle.radius * circle.radius * (circle.isFilled ? 1 : -1);
       const centroid: { x: number; y: number } = {
         x: circle.x,
         y: circle.y,
@@ -134,7 +134,7 @@
       centroids.push(centroid);
     });
     triangles.forEach(triangle => {
-      const area: number = triangle.width * triangle.height / 2 * (triangle.isFilled? 1: -1);
+      const area: number = triangle.width * triangle.height / 2 * (triangle.isFilled ? 1 : -1);
       const centroid: { x: number; y: number } = {
         x: triangle.x,
         y: triangle.y,
@@ -160,37 +160,45 @@
   function updateCentroid(): void {
     centroid = getCentroid();
   }
-    
+
 </script>
 
 <style>
-  .x-axis, .y-axis {
-  position: absolute;
-  background-color: #000;
-}
+  .x-axis,
+  .y-axis {
+    position: absolute;
+    background-color: #000;
+  }
 
-.x-axis {
-  top: 50%;
-  left: 0;
-  width: 100%;
-  height: 1px;
-}
+  .x-axis {
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+  }
 
-.y-axis {
-  top: 0;
-  left: 50%;
-  width: 1px;
-  height: 100%;
-}
+  .y-axis {
+    top: 0;
+    left: 50%;
+    width: 1px;
+    height: 100%;
+  }
+
+  button  {
+    border-radius: 0px;
+    background-color: #222;
+    color: white;
+    width: 2rem;
+  }
 </style>
 
 <section>
   <div class="x-axis"></div>
   <div class="y-axis"></div>
   <h1>Generate Shapes
-  <button on:click={createRandomRectangle}>+ Rectangle</button>
-  <button on:click={createRandomCircle}>+ Circle</button>
-  <button on:click={createRandomTriangle}>+ Triangle</button>
+    <button on:click={createRandomRectangle}>+ Rectangle</button>
+    <button on:click={createRandomCircle}>+ Circle</button>
+    <button on:click={createRandomTriangle}>+ Triangle</button>
   </h1>
   <p>Click and drag to move shapes</p>
   <p>Right click to edit them</p>
@@ -199,24 +207,15 @@
   <GithubLink />
 
   {#each rectangles as rectangle}
-    <Rectangle
-    bind:RectangleData={rectangle}
-    on:delete={handleDeleteRectangle}
-    />
+  <Rectangle bind:RectangleData={rectangle} on:delete={handleDeleteRectangle} />
   {/each}
   {#each circles as circle}
-    <Circle
-    bind:CircleData={circle}
-    on:delete={handleDeleteCircle}
-    />
+  <Circle bind:CircleData={circle} on:delete={handleDeleteCircle} />
   {/each}
   {#each triangles as triangle}
-    <Triangle
-    bind:TriangleData={triangle}
-    on:delete={handleDeleteTriangle}
-    />
+  <Triangle bind:TriangleData={triangle} on:delete={handleDeleteTriangle} />
   {/each}
-  
+
 
 
 </section>
