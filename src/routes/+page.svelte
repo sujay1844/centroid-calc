@@ -197,11 +197,12 @@
 <section>
 	<div class="x-axis"></div>
 	<div class="y-axis"></div>
-	<h1>Generate Shapes
-		<button on:click={createRandomRectangle}>+ Rectangle</button>
-		<button on:click={createRandomCircle}>+ Circle</button>
-		<button on:click={createRandomTriangle}>+ Triangle</button>
-	</h1>
+	<h1>Generate Shapes</h1>
+		
+	<button on:click={createRandomRectangle}>+ Rectangle</button>&emsp;&emsp;
+	<button on:click={createRandomCircle}>+ Circle</button>&emsp;&emsp;
+	<button on:click={createRandomTriangle}>+ Triangle</button>&emsp;&emsp;
+	
 	<p>Click and drag to move shapes</p>
 	<p>Right click to edit them</p>
 	<button on:click={updateCentroid}>Calculate Centroid</button>
