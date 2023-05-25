@@ -190,7 +190,7 @@
 		color: white;
 		height: 20px;
 		font-size: 15px;
-		padding: 5px;
+		padding: 5px 10px;
 	}
 </style>
 
