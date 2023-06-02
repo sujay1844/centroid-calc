@@ -1,38 +1,27 @@
-# create-svelte
+# Centroid Calculator
+This is a [Svelte](https://svelte.dev/) based application, which uses JavaScript to draw shapes on the co-ordinate axes, adjust co-ordinates and dimensions, and finally calculate centroid of the shape with respect to the co-ordinate axes.
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+Currently, only three shapes are supported:
+- Rectangle
+- Circle
+- Triangle
 
-## Creating a project
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Working with the calculator
+Using the calculator is pretty straightforward. Simply add a shape that you want to calculate the centroid of, adjust its position and dimensions of the shape, and click the `Calculate Centroid` button.
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+## Available settings
+### Circle
+![Circle settings](static/circle_settings.png)
 
-## Developing
+### Rectangle
+![Rectangle settings](static/rectangle_settings.png)
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+### Triangle
+Currently, only right-angled triangles are supported.<br>
+![Triangle settings](static/triangle_settings.png)
 
-```bash
-npm run dev
+<br><br><br>
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+> Created by [Sujay R](https://github.com/sujay1844)
